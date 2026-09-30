@@ -1,0 +1,17 @@
+.venv/
+venv/
+.cache/
+__pycache__/
+*.py[cod]
+.experiment-cache/
+.DS_Store
+site/
+_build/
+*.egg-info/
+.env
+deploy/helios_key
+deploy/helios_key.pub
+generators/sphinx/_build/
+generators/sphinx/img/
+generators/sphinx/_static/
+generators/sphinx/refs.bib

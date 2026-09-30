@@ -1,0 +1,14 @@
+mkdocs==1.6.1
+mkdocs-material==9.6.21
+mkdocs-bibtex==4.4.0
+pymdown-extensions==10.16.1
+matplotlib==3.10.6
+plotly==6.3.0
+numpy==2.3.3
+pygments==2.18.0
+sphinx==8.2.3
+myst-parser==4.0.1
+sphinxcontrib-bibtex==2.6.5
+sphinx-design==0.6.1
+furo==2025.7.19
+Markdown==3.8.2
