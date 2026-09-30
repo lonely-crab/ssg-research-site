@@ -1,0 +1,25 @@
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: start;
+  margin: 1rem 0;
+}
+
+@media (max-width: 768px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+table.results caption {
+  caption-side: bottom;
+  text-align: left;
+  font-size: 0.9em;
+  padding-top: 0.4rem;
+}
+
+.plotly-wrap iframe {
+  width: 100%;
+  border: 1px solid #ddd;
+}

@@ -1,0 +1,59 @@
+site_name: Задержка API
+site_author: Иван Большаков
+site_url: !ENV [SITE_URL, "http://127.0.0.1:8000/"]
+use_directory_urls: true
+repo_name: ssg-research-site
+repo_url: https://github.com/lonely-crab/ssg-research-site
+
+not_in_nav: |
+  generated/build_info.md
+  generated/meta.json
+
+theme:
+  name: material
+  language: ru
+  features:
+    - content.code.copy
+    - search.highlight
+  palette:
+    - scheme: default
+      primary: indigo
+
+plugins:
+  - search:
+      lang: ru
+  - bibtex:
+      bib_file: refs.bib
+      bib_by_default: false
+  - privacy
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax-config.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.snippets:
+      base_path: docs
+      check_paths: true
+
+nav:
+  - Главная: index.md
+  - Эксперимент: experiment.md
+  - Методика: methods.md
+
+copyright: "CC BY 4.0 / MIT · Иван Большаков"

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="180" viewBox="0 0 480 180">
+  <rect width="480" height="180" fill="#f7f7f7" stroke="#ccc"/>
+  <rect x="20" y="55" width="100" height="60" rx="6" fill="#e8f0fe"/>
+  <text x="70" y="90" text-anchor="middle" font-size="14">CSV</text>
+  <rect x="190" y="55" width="110" height="60" rx="6" fill="#fff3cd"/>
+  <text x="245" y="82" text-anchor="middle" font-size="13">МНК</text>
+  <text x="245" y="100" text-anchor="middle" font-size="11">a=1.619</text>
+  <rect x="360" y="55" width="100" height="60" rx="6" fill="#e6f4ea"/>
+  <text x="410" y="82" text-anchor="middle" font-size="13">сайт</text>
+  <text x="410" y="100" text-anchor="middle" font-size="11">RMSE=10.0</text>
+  <path d="M120 85 H190" stroke="#333" stroke-width="2"/>
+  <path d="M300 85 H360" stroke="#333" stroke-width="2"/>
+</svg>
