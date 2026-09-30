@@ -17,6 +17,30 @@ table.results caption {
   text-align: left;
   font-size: 0.9em;
   padding-top: 0.4rem;
+  font-weight: bold;
+}
+
+table.results th {
+  font-weight: bold;
+}
+
+table.results td {
+  text-align: center;
+}
+
+table.results {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+table.results th, table.results td {
+  padding: 0.4rem;
+  border: 1px solid #ddd;
+}
+
+table.results td.header {
+  font-weight: bold;
 }
 
 .plotly-wrap iframe {

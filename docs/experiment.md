@@ -64,7 +64,7 @@ $$
   </thead>
   <tbody>
     <tr>
-      <td rowspan="2">текущий прогон</td>
+      <td rowspan="2" class="header">текущий прогон</td>
       <td>10</td>
       <td>85</td>
       <td>48.2</td>
