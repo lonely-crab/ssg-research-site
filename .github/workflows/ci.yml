@@ -66,3 +66,34 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  helios:
+    needs: lint
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+      - run: |
+          python -m pip install -U pip
+          pip install -r requirements.txt
+          sudo apt-get update
+          sudo apt-get install -y sshpass
+      - name: build for helios
+        env:
+          SITE_URL: https://se.ifmo.ru/~s336402/
+        run: make build PYTHON=python
+      - name: deploy helios
+        env:
+          HELIOS_USER: ${{ secrets.HELIOS_USER }}
+          HELIOS_PASSWORD: ${{ secrets.HELIOS_PASSWORD }}
+          HELIOS_HOST: helios.cs.ifmo.ru
+          HELIOS_PORT: "2222"
+          HELIOS_SITE_URL: https://se.ifmo.ru/~s336402/
+        run: bash scripts/deploy_helios.sh

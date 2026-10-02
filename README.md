@@ -17,5 +17,9 @@ make experiment
 make serve
 ```
 
-`make sphinx` — вторая вёрстка. После пуша в `main` GitHub Actions выкладывает Pages.
+`make sphinx` — вторая вёрстка. После пуша в `main` GitHub Actions выкладывает Pages и копию на Helios.
+
+- Pages: https://lonely-crab.github.io/ssg-research-site/
+- Helios: https://se.ifmo.ru/~s336402/
+
 Если поменять `data/experiment.csv`, графики пересчитаются при сборке.
