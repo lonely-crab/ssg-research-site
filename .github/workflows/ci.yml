@@ -87,45 +87,14 @@ jobs:
         env:
           SITE_URL: https://se.ifmo.ru/~s336402/
         run: make build PYTHON=python
-      - name: pack site
-        run: tar -C site -czf site.tgz .
-      - name: backup public_html
-        uses: appleboy/ssh-action@v1.2.2
-        with:
-          host: helios.cs.ifmo.ru
-          username: ${{ secrets.HELIOS_USER }}
-          key: ${{ secrets.HELIOS_SSH_KEY }}
-          port: 2222
-          script: |
-            if [ -d public_html ]; then
-              rm -rf public_html.prev
-              mv public_html public_html.prev
-            fi
-            mkdir -p public_html
-      - name: copy site.tgz
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: helios.cs.ifmo.ru
-          username: ${{ secrets.HELIOS_USER }}
-          key: ${{ secrets.HELIOS_SSH_KEY }}
-          port: 2222
-          source: site.tgz
-          target: "."
-          overwrite: true
-      - name: unpack
-        uses: appleboy/ssh-action@v1.2.2
-        with:
-          host: helios.cs.ifmo.ru
-          username: ${{ secrets.HELIOS_USER }}
-          key: ${{ secrets.HELIOS_SSH_KEY }}
-          port: 2222
-          script: |
-            gzip -dc site.tgz | tar -xf - -C public_html
-            rm -f site.tgz
-      - name: healthcheck
+      - name: deploy helios
+        env:
+          HELIOS_USER: ${{ secrets.HELIOS_USER }}
+          HELIOS_KEY_BODY: ${{ secrets.HELIOS_SSH_KEY }}
+          HELIOS_SITE_URL: https://se.ifmo.ru/~s336402/
         run: |
-          sleep 2
-          code="$(curl -sS -o /tmp/helios_index.html -w '%{http_code}' -L --max-time 20 https://se.ifmo.ru/~s336402/)"
-          echo "HTTP $code"
-          test "$code" = "200"
-          grep -q "Задержка" /tmp/helios_index.html
+          KEYFILE="$RUNNER_TEMP/helios_key"
+          printf '%s\n' "$HELIOS_KEY_BODY" > "$KEYFILE"
+          chmod 600 "$KEYFILE"
+          export HELIOS_SSH_KEY="$KEYFILE"
+          bash scripts/deploy_helios.sh
