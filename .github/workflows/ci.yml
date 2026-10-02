@@ -94,9 +94,8 @@ jobs:
         with:
           host: helios.cs.ifmo.ru
           username: ${{ secrets.HELIOS_USER }}
-          password: ${{ secrets.HELIOS_PASSWORD }}
+          key: ${{ secrets.HELIOS_SSH_KEY }}
           port: 2222
-          script_stop: true
           script: |
             if [ -d public_html ]; then
               rm -rf public_html.prev
@@ -108,7 +107,7 @@ jobs:
         with:
           host: helios.cs.ifmo.ru
           username: ${{ secrets.HELIOS_USER }}
-          password: ${{ secrets.HELIOS_PASSWORD }}
+          key: ${{ secrets.HELIOS_SSH_KEY }}
           port: 2222
           source: site.tgz
           target: "."
@@ -118,9 +117,8 @@ jobs:
         with:
           host: helios.cs.ifmo.ru
           username: ${{ secrets.HELIOS_USER }}
-          password: ${{ secrets.HELIOS_PASSWORD }}
+          key: ${{ secrets.HELIOS_SSH_KEY }}
           port: 2222
-          script_stop: true
           script: |
             gzip -dc site.tgz | tar -xf - -C public_html
             rm -f site.tgz
