@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 project = "Задержка API"
-author = "Иван Большаков"
-copyright = "2026, Иван Большаков"
+author = "Иван Большаков, Владислав Рождественский"
+copyright = "2026, Иван Большаков, Владислав Рождественский"
 language = "ru"
 extensions = [
     "myst_parser",
