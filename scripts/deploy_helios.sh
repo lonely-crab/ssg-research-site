@@ -24,7 +24,12 @@ if [[ -f "$KNOWN_HOSTS" ]]; then
 fi
 if [[ -n "${HELIOS_PASSWORD:-}" ]]; then
   export SSHPASS="$HELIOS_PASSWORD"
-  ssh_cmd=(sshpass -e "${ssh_cmd[@]}" -o PreferredAuthentications=password -o PubkeyAuthentication=no)
+  # Helios отдаёт keyboard-interactive, не password
+  ssh_cmd=(sshpass -e -P "assword" "${ssh_cmd[@]}"
+    -o PreferredAuthentications=keyboard-interactive,password
+    -o KbdInteractiveAuthentication=yes
+    -o PubkeyAuthentication=no
+    -o NumberOfPasswordPrompts=1)
 elif [[ -f "$KEY" ]]; then
   ssh_cmd+=(-i "$KEY" -o IdentitiesOnly=yes)
 fi

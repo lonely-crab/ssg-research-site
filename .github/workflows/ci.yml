@@ -68,7 +68,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
   helios:
-    needs: lint
+    needs: build
     if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     steps:
@@ -83,17 +83,51 @@ jobs:
       - run: |
           python -m pip install -U pip
           pip install -r requirements.txt
-          sudo apt-get update
-          sudo apt-get install -y sshpass
       - name: build for helios
         env:
           SITE_URL: https://se.ifmo.ru/~s336402/
         run: make build PYTHON=python
-      - name: deploy helios
-        env:
-          HELIOS_USER: ${{ secrets.HELIOS_USER }}
-          HELIOS_PASSWORD: ${{ secrets.HELIOS_PASSWORD }}
-          HELIOS_HOST: helios.cs.ifmo.ru
-          HELIOS_PORT: "2222"
-          HELIOS_SITE_URL: https://se.ifmo.ru/~s336402/
-        run: bash scripts/deploy_helios.sh
+      - name: pack site
+        run: tar -C site -czf site.tgz .
+      - name: backup public_html
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: helios.cs.ifmo.ru
+          username: ${{ secrets.HELIOS_USER }}
+          password: ${{ secrets.HELIOS_PASSWORD }}
+          port: 2222
+          script_stop: true
+          script: |
+            if [ -d public_html ]; then
+              rm -rf public_html.prev
+              mv public_html public_html.prev
+            fi
+            mkdir -p public_html
+      - name: copy site.tgz
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: helios.cs.ifmo.ru
+          username: ${{ secrets.HELIOS_USER }}
+          password: ${{ secrets.HELIOS_PASSWORD }}
+          port: 2222
+          source: site.tgz
+          target: "."
+          overwrite: true
+      - name: unpack
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: helios.cs.ifmo.ru
+          username: ${{ secrets.HELIOS_USER }}
+          password: ${{ secrets.HELIOS_PASSWORD }}
+          port: 2222
+          script_stop: true
+          script: |
+            gzip -dc site.tgz | tar -xf - -C public_html
+            rm -f site.tgz
+      - name: healthcheck
+        run: |
+          sleep 2
+          code="$(curl -sS -o /tmp/helios_index.html -w '%{http_code}' -L --max-time 20 https://se.ifmo.ru/~s336402/)"
+          echo "HTTP $code"
+          test "$code" = "200"
+          grep -q "Задержка" /tmp/helios_index.html
